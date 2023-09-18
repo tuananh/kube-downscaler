@@ -7,7 +7,8 @@ RUN pip3 install poetry
 COPY poetry.lock /home/nonroot/app
 COPY pyproject.toml /home/nonroot/app
 
-RUN /home/nonroot/.local/bin/poetry install \
+RUN /home/nonroot/.local/bin/poetry config virtualenvs.create false && \
+    /home/nonroot/.local/bin/poetry install \
     --no-interaction \
     --only main \
     --no-ansi \
