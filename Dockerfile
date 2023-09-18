@@ -7,8 +7,11 @@ RUN pip3 install poetry
 COPY poetry.lock /app
 COPY pyproject.toml /app
 
-RUN /home/nonroot/.local/bin/poetry config virtualenvs.create false && \
-    /home/nonroot/.local/bin/poetry install --no-interaction --only main --no-ansi --no-root
+RUN POETRY_VIRTUALENVS_CREATE=false /home/nonroot/.local/bin/poetry install \
+    --no-interaction \
+    --only main \
+    --no-ansi \
+    --no-root
 
 FROM cgr.dev/chainguard/python:latest
 
