@@ -1,5 +1,6 @@
 FROM cgr.dev/chainguard/python:latest-dev
 
+USER 0
 WORKDIR /
 
 RUN apk add poetry
