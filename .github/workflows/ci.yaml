@@ -1,4 +1,4 @@
-name: Release pizza image
+name: Release image
 
 on:
   push:
