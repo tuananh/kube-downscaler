@@ -2,7 +2,8 @@ FROM cgr.dev/chainguard/python:latest-dev
 
 WORKDIR /
 
-RUN pip3 install poetry
+RUN apk add poetry
+#RUN pip3 install poetry
 
 COPY poetry.lock /
 COPY pyproject.toml /
