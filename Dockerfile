@@ -14,8 +14,8 @@ RUN /home/nonroot/.local/bin/poetry install \
     --no-root
 
 COPY kube_downscaler /home/nonroot/app/kube_downscaler
-ARG VERSION=dev
-RUN sed -i "s/__version__ = .*/__version__ = '${VERSION}'/" /home/nonroot/app/kube_downscaler/__init__.py
+# ARG VERSION=dev
+# RUN sed -i "s/__version__ = .*/__version__ = '${VERSION}'/" /home/nonroot/app/kube_downscaler/__init__.py
 
 FROM cgr.dev/chainguard/python:latest
 
