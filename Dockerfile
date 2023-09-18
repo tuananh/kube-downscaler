@@ -3,16 +3,12 @@ FROM cgr.dev/chainguard/python:latest-dev as builder
 WORKDIR /home/nonroot/app
 
 RUN pip3 install poetry
+RUN python -m venv ./venv
 
 COPY poetry.lock /home/nonroot/app
 COPY pyproject.toml /home/nonroot/app
 
-RUN /home/nonroot/.local/bin/poetry config virtualenvs.create false && \
-    /home/nonroot/.local/bin/poetry install \
-    --no-interaction \
-    --only main \
-    --no-ansi \
-    --no-root
+RUN . ./venv/bin/activate && /home/nonroot/.local/bin/poetry install --only main --no-root
 
 COPY kube_downscaler /home/nonroot/app/kube_downscaler
 # ARG VERSION=dev
@@ -22,10 +18,9 @@ FROM cgr.dev/chainguard/python:latest
 
 WORKDIR /home/nonroot/app
 
-# copy pre-built packages to this image
-COPY --from=builder /home/nonroot/.local/lib/python3.11/site-packages /home/nonroot/.local/lib/python3.11/site-packages
-
-# now copy the actual code we will execute (poetry install above was just for dependencies)
+COPY --from=builder /home/nonroot/app/.venv .venv
 COPY --from=builder /home/nonroot/app/kube_downscaler /home/nonroot/app/kube_downscaler
+
+RUN . ./venv/bin/activate
 
 ENTRYPOINT ["python3", "-m", "kube_downscaler"]
