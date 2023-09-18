@@ -7,8 +7,8 @@ RUN pip3 install poetry
 COPY poetry.lock /
 COPY pyproject.toml /
 
-RUN poetry config virtualenvs.create false && \
-    poetry install --no-interaction --no-dev --no-ansi
+RUN /home/nonroot/.local/bin/poetry config virtualenvs.create false && \
+    /home/nonroot/.local/bin/poetry install --no-interaction --no-dev --no-ansi
 
 FROM cgr.dev/chainguard/python:latest
 
