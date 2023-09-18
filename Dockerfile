@@ -1,10 +1,8 @@
-FROM cgr.dev/chainguard/python:latest-dev
+FROM cgr.dev/chainguard/python:latest-dev as builder
 
-USER 0
-WORKDIR /
+WORKDIR /app
 
-RUN apk add poetry
-#RUN pip3 install poetry
+RUN pip3 install poetry
 
 COPY poetry.lock /
 COPY pyproject.toml /
@@ -14,13 +12,13 @@ RUN poetry config virtualenvs.create false && \
 
 FROM cgr.dev/chainguard/python:latest
 
-WORKDIR /
+WORKDIR /app
 
 # copy pre-built packages to this image
-COPY --from=0 /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /home/nonroot/.local/lib/python3.11/site-packages /home/nonroot/.local/lib/python3.11/site-packages
 
 # now copy the actual code we will execute (poetry install above was just for dependencies)
-COPY kube_downscaler /kube_downscaler
+COPY kube_downscaler /app/kube_downscaler
 
 ARG VERSION=dev
 
