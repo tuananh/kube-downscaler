@@ -4,8 +4,8 @@ WORKDIR /app
 
 RUN pip3 install poetry
 
-COPY poetry.lock /
-COPY pyproject.toml /
+COPY poetry.lock /app
+COPY pyproject.toml /app
 
 RUN /home/nonroot/.local/bin/poetry config virtualenvs.create false && \
     /home/nonroot/.local/bin/poetry install --no-interaction --no-dev --no-ansi
